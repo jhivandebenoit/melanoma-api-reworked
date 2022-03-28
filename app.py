@@ -5,6 +5,7 @@ from PIL import Image
 import numpy as np
 import flask
 import io
+import re
 from tensorflow.python.ops.numpy_ops import np_config
 np_config.enable_numpy_behavior()
 
@@ -50,9 +51,10 @@ def predict():
         image = Image.open(io.BytesIO(image))
         image = prepare_image(image)
         prediction = model.predict(image)
+        prediction = prediction[0][0]
         return {"prediction": f"{prediction}"}
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5000,host='0.0.0.0')
+    app.run(debug=True,port=8080,host='0.0.0.0')
 
